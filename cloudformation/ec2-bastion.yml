@@ -1,11 +1,11 @@
 ---
-AWSTemplateFormatVersion: “2010-09-09”
+AWSTemplateFormatVersion: "2010-09-09"
 Description: EC2 bastion for latest AWS Linux 2 EC2 deployment
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
-          default: “EC2 Configuration”
+          default: "EC2 Configuration"
         Parameters:
           - pTagNameValue
           - pOperatingSystem
@@ -13,25 +13,25 @@ Metadata:
           - pVolumeSize
           - pEbsDeleteOnTermination
       - Label:
-          default: “Network Configuration”
+          default: "Network Configuration"
         Parameters:
           - pVpc
           - pSubnet
     ParameterLabels:
       pOperatingSystem:
-        default: “Operating System”
+        default: "Operating System"
       pInstanceType:
-        default: “Instance Type”
+        default: "Instance Type"
       pTagNameValue:
-        default: “EC2 Name”
+        default: "EC2 Name"
       pVolumeSize:
-        default: “Volume Size”
+        default: "Volume Size"
       pEbsDeleteOnTermination:
-        default: “Delete EBS Volume on Termination”
+        default: "Delete EBS Volume on Termination"
       pSubnet:
-        default: “Subnet”
+        default: "Subnet"
       pVpc:
-        default: “VPC”
+        default: "VPC"
 Parameters:
   pSubnet:
     Description: The subnet to launch the instance in to. It must be part of the VPC chosen above.
@@ -40,8 +40,8 @@ Parameters:
     Description: The VPC to launch the EC2 instance in to.
     Type: AWS::EC2::VPC::Id
   pOperatingSystem:
-    Type: “AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>”
-    Default: “/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-ebs”
+    Type: "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>"
+    Default: "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-ebs"
   pInstanceType:
     Description: Desired Instance Size
     Type: String
@@ -53,10 +53,10 @@ Parameters:
       - t2.medium
       - t2.large
   pTagNameValue:
-    Description: “Required: Enter the tag name you'd like applied to the instance. Tag Name gives the name to the EC2 instance.”
+    Description: "Required: Enter the tag name you'd like applied to the instance. Tag Name gives the name to the EC2 instance."
     Type: String
     MinLength: 1
-    Default: “myBastion”
+    Default: "myBastion"
   pVolumeSize:
     Description:
       Enter the number of GBs you want your volume to be. The minimum value
@@ -65,7 +65,7 @@ Parameters:
     Default: 50
     MinValue: 8
   pEbsDeleteOnTermination:
-    Description: “Specify if the EBS volume should be deleted if EC2 is deleted.”
+    Description: "Specify if the EBS volume should be deleted if EC2 is deleted."
     Type: String
     Default: true
     AllowedValues:
@@ -78,17 +78,17 @@ Rules:
           - !ValueOfAll
             - AWS::EC2::Subnet::Id
             - VpcId
-          - !RefAll “AWS::EC2::VPC::Id”
+          - !RefAll "AWS::EC2::VPC::Id"
         AssertDescription: All subnets must in the VPC
 Resources:
   rSecurityGroupDefault:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: !Sub “Default SG for SC Product ${pTagNameValue} ”
+      GroupDescription: !Sub "Default SG for SC Product ${pTagNameValue} "
       VpcId: !Ref pVpc
       SecurityGroupEgress:
         - Description: Outbound unrestricted traffic
-          IpProtocol: “-1"
+          IpProtocol: "-1"
           CidrIp: 0.0.0.0/0
       Tags:
         - Key: Name
@@ -105,7 +105,7 @@ Resources:
       SecurityGroupIds:
         - !Ref rSecurityGroupDefault
       BlockDeviceMappings:
-        - DeviceName: “/dev/xvda”
+        - DeviceName: "/dev/xvda"
           Ebs:
             VolumeSize: !Ref pVolumeSize
             DeleteOnTermination: !Ref pEbsDeleteOnTermination
@@ -120,13 +120,13 @@ Resources:
   rEc2Role:
     Type: AWS::IAM::Role
     Properties:
-      RoleName:  !Sub “ec2-role-${AWS::StackName}”
+      RoleName:  !Sub "ec2-role-${AWS::StackName}"
       AssumeRolePolicyDocument:
         Statement:
           - Effect: Allow
             Principal:
               Service: [ec2.amazonaws.com]
-            Action: [‘sts:AssumeRole’]
+            Action: ['sts:AssumeRole']
       Path: /
       ManagedPolicyArns:
       - !Sub 'arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore'
@@ -134,7 +134,7 @@ Resources:
   rec2InstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
-      InstanceProfileName: !Sub “ec2-profile-${AWS::StackName}”
+      InstanceProfileName: !Sub "ec2-profile-${AWS::StackName}"
       Path: /
       Roles:
         - !Ref rEc2Role
