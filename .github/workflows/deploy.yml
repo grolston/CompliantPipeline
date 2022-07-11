@@ -29,5 +29,6 @@ jobs:
       with:
         name: myEC2bastion
         template: cloudformation/ec2-bastion.yml
+        capabilities: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
         no-fail-on-empty-changeset: "1"
         parameter-overrides: "pVpc=${{ secrets.VPC_ID }},pSubnet=${{ secrets.SUBNET_ID }}"
