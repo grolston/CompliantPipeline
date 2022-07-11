@@ -95,6 +95,10 @@ Resources:
           Value: !Ref pTagNameValue
   rLinuxEc2:
     Type: AWS::EC2::Instance
+    Metadata:
+      guard:
+        SuppressedRules:
+          - 'EC2_INSTANCE_DETAILED_MONITORING_ENABLED'
     Properties:
       ImageId: !Ref pOperatingSystem
       IamInstanceProfile: !Ref rec2InstanceProfile
