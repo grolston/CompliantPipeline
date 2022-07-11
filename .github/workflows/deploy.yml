@@ -27,7 +27,7 @@ jobs:
     - name: Deploy EC2 Bastion
       uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
       with:
-        name: myEC2bastion.yml
+        name: myEC2bastion
         template: cloudformation/ec2-bastion.yml
         no-fail-on-empty-changeset: "1"
         parameter-overrides: "pVpc=${{ secrets.VPC_ID }},pSubnet=${{ secrets.SUBNET_ID }}"
