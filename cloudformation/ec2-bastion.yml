@@ -97,6 +97,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref pOperatingSystem
+      IamInstanceProfile: !Ref rec2InstanceProfile
       Monitoring: false
       InstanceType: !Ref pInstanceType
       EbsOptimized: true
