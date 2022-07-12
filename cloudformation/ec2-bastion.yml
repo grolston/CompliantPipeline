@@ -45,11 +45,11 @@ Parameters:
   pInstanceType:
     Description: Desired Instance Size
     Type: String
-    Default: m1.large
+    Default: t3.small
     AllowedValues:
-      - m1.large
-      - c5.large
-      - c5a.large
+      - t3.small
+      - t3.medium
+      - t3.nano
   pTagNameValue:
     Description: "Required: Enter the tag name you'd like applied to the instance. Tag Name gives the name to the EC2 instance."
     Type: String
