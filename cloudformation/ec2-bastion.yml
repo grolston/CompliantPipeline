@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: "2010-09-09"
-Description: EC2 bastion for latest AWS Linux 2 EC2 deployment
+Description: EC2 bastion for latest AWS Linux 2 EC2 deployment v2
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
