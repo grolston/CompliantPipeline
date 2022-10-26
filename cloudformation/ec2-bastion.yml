@@ -102,7 +102,7 @@ Resources:
       IamInstanceProfile: !Ref rec2InstanceProfile
       Monitoring: true
       InstanceType: !Ref pInstanceType
-      EbsOptimized: false
+      EbsOptimized: true
       SourceDestCheck: true
       SubnetId: !Ref pSubnet
       SecurityGroupIds:
