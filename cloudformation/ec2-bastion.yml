@@ -117,7 +117,7 @@ Resources:
           Value: !Ref pTagNameValue
       UserData:
         Fn::Base64:
-          yum update -y 
+          echo "hello world" 
   ## Instance Profiles
   ## EC2 IAM Roles
   rEc2Role:
