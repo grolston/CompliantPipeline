@@ -45,9 +45,9 @@ Parameters:
   pInstanceType:
     Description: Desired Instance Size
     Type: String
-    Default: t2.small
+    Default: m4.large
     AllowedValues:
-      - t2.small
+      - m4.large
       - t3.medium
       - t3.nano
   pTagNameValue:
